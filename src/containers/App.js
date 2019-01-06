@@ -1,10 +1,11 @@
 import React from 'react';
 import GlobalStyle from './AppStyle';
+import Board from 'containers/Board/Board';
 
 function App(props) {
   return (
     <React.Fragment>
-      <p>Setting up...</p>
+      <Board />
       <GlobalStyle />
     </React.Fragment>
   );

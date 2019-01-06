@@ -22,7 +22,7 @@ const GlobalStyle = createGlobalStyle`
   }
   #root {
     display: flex;
-    padding: 16px;
+    height: 100%;
   }
 `;
 
