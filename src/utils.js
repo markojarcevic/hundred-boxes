@@ -89,10 +89,11 @@ function markClickableBoxes(currentBox, grid, leftToMark) {
     : grid;
 }
 
-export function updateBoxesOnClick(boxes, clickedBoxId) {
+export function updateBoardOnClick(boxes, clickedBoxId) {
   const idsInRange = getIdsInRange(clickedBoxId);
+  let availableToClick = 0;
 
-  return boxes.map(box => {
+  const updatedBoxes = boxes.map(box => {
     if (box.id === clickedBoxId) {
       // Target box, set status to `clicked`
       box.status = BOX_STATUS.CLICKED;
@@ -102,6 +103,7 @@ export function updateBoxesOnClick(boxes, clickedBoxId) {
     ) {
       // Box in range, set status to `clickable`
       box.status = BOX_STATUS.NEXT;
+      availableToClick++;
     } else if (box.status === BOX_STATUS.NEXT) {
       // Previously clickable but now not in range
       box.status = BOX_STATUS.CLICKABLE;
@@ -109,4 +111,9 @@ export function updateBoxesOnClick(boxes, clickedBoxId) {
 
     return box;
   });
+
+  return {
+    availableToClick,
+    updatedBoxes
+  };
 }

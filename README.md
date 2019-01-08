@@ -5,7 +5,7 @@ A basic board game.
 ### Installation
 
 - Clone the repo
-- Navigate to the folder and run `npm start`
+- Navigate to the folder, run `npm i && npm start`
 - Open [http://localhost:3000/](http://localhost:3000/) and enjoy
 
 ### The Game

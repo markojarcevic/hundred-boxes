@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 
 export const StyledWrapper = styled.div`
-  height: 100%;
+  height: 85%;
   display: flex;
   flex: 1 0 0;
   align-items: center;
@@ -14,5 +14,6 @@ export const StyledBoard = styled.div`
   grid-template-rows: 10% 10% 10% 10% 10% 10% 10% 10% 10% 10%;
   width: 70vmin;
   height: 70vmin;
-  border: 5px solid var(--light-gray);
+  min-width: 300px;
+  min-height: 300px;
 `;
