@@ -1,44 +1,23 @@
-import React, { useState } from 'react';
+import React, { useReducer } from 'react';
 import GlobalStyle from './AppStyle';
 import Board from 'containers/Board/Board';
 import Stats from 'containers/Stats/Stats';
+import Modal from 'components/Modal/Modal';
 import { BOX_STATUS, GAME_STATUS } from 'const';
-import { generateGrid, generateLevel, updateBoardOnClick } from 'utils';
+import reducer, { initialState } from 'reducer';
+import { boxClick, startGame } from 'actions';
 
 function App(props) {
-  const [boxes, setBoxes] = useState(generateGrid());
-  const [gameStatus, setGameStatus] = useState(GAME_STATUS.START);
-  const [level, setLevel] = useState(7);
-  const [lives, setLives] = useState(level);
-  const [leftToClick, setLeftToClick] = useState(level);
+  const [state, dispatch] = useReducer(reducer, initialState);
+  const { boxes, gameStatus, leftToClick, level, lives } = state;
 
   function handleBoxClick({ target }) {
-    const { id, status } = target.dataset;
-    let newBoxes = boxes;
-    let boxesLeft = leftToClick;
+    const { id: boxId, status } = target.dataset;
 
     if (gameStatus === GAME_STATUS.START) {
-      newBoxes = generateLevel(level, id);
-      boxesLeft = level + 1;
-      setGameStatus(GAME_STATUS.ACTIVE);
-    } else if (status !== BOX_STATUS.NEXT) {
-      return;
-    }
-
-    const { availableToClick, updatedBoxes } = updateBoardOnClick(newBoxes, id);
-
-    setBoxes(updatedBoxes);
-    setLeftToClick(--boxesLeft);
-
-    if (availableToClick === 0) {
-      if (boxesLeft === 0) {
-        setGameStatus(GAME_STATUS.LEVEL_COMPLETED);
-        setLives(prevLives => prevLives + 1);
-        setLevel(prevLevel => prevLevel + 1);
-      } else {
-        setGameStatus(GAME_STATUS.FAILED);
-        setLives(prevLives => prevLives - boxesLeft);
-      }
+      dispatch(startGame(boxId));
+    } else if (status === BOX_STATUS.NEXT) {
+      dispatch(boxClick(boxId));
     }
   }
 
@@ -51,6 +30,11 @@ function App(props) {
         level={level}
         lives={lives}
       />
+      <Modal
+        dispatch={dispatch}
+        gameStatus={gameStatus}
+        leftToClick={leftToClick}
+        level={level} />
       <GlobalStyle />
     </React.Fragment>
   );

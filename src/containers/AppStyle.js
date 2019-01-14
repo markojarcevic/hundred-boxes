@@ -3,6 +3,7 @@ import { createGlobalStyle } from 'styled-components';
 const GlobalStyle = createGlobalStyle`
   * {
     box-sizing: border-box;
+    outline-offset: -1px;
   }
   html {
     --brown: #882323;

@@ -1,25 +1,28 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { GAME_STATUS } from 'const';
 
-function Timer(props) {
-  const { gameStatus } = props;
+function Timer({ gameStatus }) {
   const [time, setTime] = useState(0);
   const intervalIdRef = useRef();
 
-  useEffect(() => {
-    if (gameStatus === GAME_STATUS.ACTIVE) {
-      startTimer();
-    } else if (gameStatus === GAME_STATUS.START) {
-      resetTimer();
-    } else {
-      pauseTimer();
-    }
-  }, [gameStatus]);
+  useEffect(
+    () => {
+      if (gameStatus === GAME_STATUS.ACTIVE) {
+        startTimer();
+      } else if (gameStatus === GAME_STATUS.START) {
+        resetTimer();
+      } else {
+        pauseTimer();
+      }
+    },
+    [gameStatus]
+  );
 
   function startTimer() {
-    intervalIdRef.current = setInterval(() =>
-      setTime(prevTime => prevTime + 1)
-    , 1000);
+    intervalIdRef.current = setInterval(
+      () => setTime(prevTime => prevTime + 1),
+      1000
+    );
   }
 
   function pauseTimer() {

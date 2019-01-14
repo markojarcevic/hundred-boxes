@@ -49,7 +49,6 @@ export function getIdsInRange(boxId) {
  */
 export function generateLevel(level, boxId) {
   const newGrid = generateGrid();
-  // Find the clicked box and set its status to "clickable"
   const clickedBox = newGrid.find(box => box.id === boxId);
   clickedBox.status = BOX_STATUS.CLICKABLE;
 
@@ -89,11 +88,11 @@ function markClickableBoxes(currentBox, grid, leftToMark) {
     : grid;
 }
 
-export function updateBoardOnClick(boxes, clickedBoxId) {
+export function updateBoardOnClick(currentBoxes, clickedBoxId) {
   const idsInRange = getIdsInRange(clickedBoxId);
-  let availableToClick = 0;
+  let clickable = 0;
 
-  const updatedBoxes = boxes.map(box => {
+  const boxes = currentBoxes.map(box => {
     if (box.id === clickedBoxId) {
       // Target box, set status to `clicked`
       box.status = BOX_STATUS.CLICKED;
@@ -103,7 +102,7 @@ export function updateBoardOnClick(boxes, clickedBoxId) {
     ) {
       // Box in range, set status to `clickable`
       box.status = BOX_STATUS.NEXT;
-      availableToClick++;
+      clickable++;
     } else if (box.status === BOX_STATUS.NEXT) {
       // Previously clickable but now not in range
       box.status = BOX_STATUS.CLICKABLE;
@@ -112,8 +111,5 @@ export function updateBoardOnClick(boxes, clickedBoxId) {
     return box;
   });
 
-  return {
-    availableToClick,
-    updatedBoxes
-  };
+  return { boxes, clickable };
 }
